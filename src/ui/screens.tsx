@@ -170,7 +170,7 @@ export function CharacterScreen({ profile, onBack }: { profile: Profile; onBack:
         <div className="preview-canvas">
           <CharacterPreview stageIndex={current} size={210} />
         </div>
-        <Tag tone="purple">{EVOLUTION_STAGES[current].title.toUpperCase()}</Tag>
+        <Tag tone="cyan">{EVOLUTION_STAGES[current].title.toUpperCase()}</Tag>
         <div className="xp-block">
           <div className="xp-head">
             <span>{profile.xp.toLocaleString()} XP</span>

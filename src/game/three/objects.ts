@@ -220,10 +220,10 @@ export class ObjectFactory {
   private buildEnergy(): THREE.Group {
     const group = new THREE.Group();
     const green = this.mat({
-      color: this.world.rewardColors[1] ?? '#39ff9c',
+      color: this.world.accent2,
       metalness: 0.2,
       roughness: 0.12,
-      emissive: this.world.rewardColors[1] ?? '#39ff9c',
+      emissive: this.world.accent2,
       emissiveIntensity: 1.15,
       flatShading: true,
       transparent: true,

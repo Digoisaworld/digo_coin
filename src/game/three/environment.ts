@@ -19,7 +19,7 @@ export class Environment {
   }
 
   applyTo(scene: THREE.Scene): void {
-    scene.background = new THREE.Color(this.world.sky[0]);
+    scene.background = new THREE.Color(this.world.skyBottom);
     scene.fog = new THREE.Fog(new THREE.Color(this.world.fog), 16, 46);
   }
 
@@ -57,7 +57,7 @@ export class Environment {
       map: groundTexture(this.world),
       roughness: 0.55,
       metalness: 0.35,
-      emissive: new THREE.Color(this.world.groundEmissive),
+      emissive: new THREE.Color(this.world.groundLine),
       emissiveIntensity: 0.55,
     });
     const ground = new THREE.Mesh(groundGeo, groundMat);
@@ -82,7 +82,7 @@ export class Environment {
     const count = 220;
     const positions = new Float32Array(count * 3);
     const colors = new Float32Array(count * 3);
-    const color = new THREE.Color(this.world.ambientColor);
+    const color = new THREE.Color(this.world.ambient);
     for (let i = 0; i < count; i += 1) {
       positions[i * 3] = (Math.random() - 0.5) * 26;
       positions[i * 3 + 1] = Math.random() * 22;
@@ -96,7 +96,7 @@ export class Environment {
     ambientGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     ambientGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
     const ambientMat = new THREE.PointsMaterial({
-      size: this.world.ambient === 'snow' ? 0.22 : 0.14,
+      size: this.world.extras.includes('snow') ? 0.24 : 0.14,
       vertexColors: true,
       transparent: true,
       opacity: 0.9,
@@ -108,13 +108,13 @@ export class Environment {
     this.group.add(this.ambientPoints);
 
     // lighting rig
-    const ambient = new THREE.AmbientLight(new THREE.Color(this.world.sky[1]), 1.1);
+    const ambient = new THREE.AmbientLight(new THREE.Color(this.world.ambient), 1.1);
     const hemi = new THREE.HemisphereLight(
-      new THREE.Color(this.world.sky[0]),
-      new THREE.Color(this.world.groundEmissive),
+      new THREE.Color(this.world.skyTop),
+      new THREE.Color(this.world.groundLine),
       1.2,
     );
-    const key = new THREE.DirectionalLight(0xffffff, 2.1);
+    const key = new THREE.DirectionalLight(new THREE.Color(this.world.keyLight), 2.1);
     key.position.set(3, 12, 9);
     const fill = new THREE.PointLight(new THREE.Color(this.world.accent), 26, 30, 2);
     fill.position.set(-6, 4, 5);
@@ -142,7 +142,7 @@ export class Environment {
     if (this.ambientPoints) {
       const attr = this.ambientPoints.geometry.getAttribute('position') as THREE.BufferAttribute;
       const array = attr.array as Float32Array;
-      const falling = this.world.ambient !== 'embers';
+      const falling = !this.world.extras.includes('embers');
       for (let i = 0; i < this.ambientData.length; i += 1) {
         const data = this.ambientData[i];
         const idx = i * 3;

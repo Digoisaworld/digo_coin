@@ -63,7 +63,7 @@ export function Progress({
 }: {
   value: number;
   max: number;
-  tone?: 'gold' | 'cyan' | 'green' | 'purple';
+  tone?: 'gold' | 'cyan' | 'green' | 'purple' | 'danger';
   height?: number;
 }) {
   const pct = max > 0 ? Math.max(0, Math.min(1, value / max)) * 100 : 0;

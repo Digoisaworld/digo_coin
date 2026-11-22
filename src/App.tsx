@@ -240,7 +240,7 @@ export default function App() {
       <SettingsScreen
         profile={profile}
         onBack={back}
-        onUpdate={updateSettings}
+        onSettings={updateSettings}
         onReset={resetProgress}
       />
     );

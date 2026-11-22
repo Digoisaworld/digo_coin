@@ -5,6 +5,7 @@ import { POWERUPS } from '../game/core/profile';
 import type { GameModeId, HudSnapshot, RunResult, WorldId } from '../game/core/types';
 import { getWorld } from '../game/core/worlds';
 import { Game } from '../game/engine/Game';
+import type { RunExtras } from '../state/profileOps';
 import { Btn, Progress } from './components';
 
 export interface GameScreenProps {
@@ -15,7 +16,7 @@ export interface GameScreenProps {
   controls: 'drag' | 'buttons' | 'both';
   bestScore: number;
   claimNote?: string;
-  onFinish: (result: RunResult) => void;
+  onFinish: (result: RunResult, extras: RunExtras) => void;
   onExit: () => void;
 }
 
@@ -37,6 +38,7 @@ export function GameScreen({
   const gameRef = useRef<Game | null>(null);
   const finishRef = useRef(onFinish);
   const toastTimer = useRef<number | null>(null);
+  const runStats = useRef<{ powerups: number; bosses: number }>({ powerups: 0, bosses: 0 });
 
   const [hud, setHud] = useState<HudSnapshot | null>(null);
   const [result, setResult] = useState<RunResult | null>(null);
@@ -58,6 +60,7 @@ export function GameScreen({
 
     setResult(null);
     setHud(null);
+    runStats.current = { powerups: 0, bosses: 0 };
 
     const game = new Game({
       canvas,
@@ -71,6 +74,7 @@ export function GameScreen({
         onEvent: (event) => {
           switch (event.type) {
             case 'powerup':
+              runStats.current.powerups += 1;
               showToast(`${POWERUPS[event.kind].icon} ${POWERUPS[event.kind].name.toUpperCase()}`, 'cyan');
               break;
             case 'level':
@@ -83,6 +87,7 @@ export function GameScreen({
               showToast('BOSS INCOMING', 'danger');
               break;
             case 'bossDefeated':
+              runStats.current.bosses += 1;
               showToast('BOSS DEFEATED', 'green');
               break;
             default:
@@ -91,7 +96,7 @@ export function GameScreen({
         },
         onFinish: (finished) => {
           setResult(finished);
-          finishRef.current(finished);
+          finishRef.current(finished, { ...runStats.current });
         },
       },
     });

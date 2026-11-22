@@ -5,14 +5,29 @@ import { applyRunResult, type RunExtras, type RunOutcome } from './profileOps';
 
 const STORAGE_KEY = 'digo-evolution:profile:v1';
 
+/** DEFAULT_PROFILE is a template object, so nested structures are cloned per profile. */
+function freshProfile(): Profile {
+  return {
+    ...DEFAULT_PROFILE,
+    bestByMode: { ...DEFAULT_PROFILE.bestByMode },
+    worldsPlayed: [...DEFAULT_PROFILE.worldsPlayed],
+    missionProgress: {},
+    missionsClaimed: [],
+    achievements: [],
+    daily: { ...DEFAULT_PROFILE.daily },
+    settings: { ...DEFAULT_PROFILE.settings },
+    wallet: null,
+  };
+}
+
 function load(): Profile {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return DEFAULT_PROFILE();
+    if (!raw) return freshProfile();
     const parsed = JSON.parse(raw) as Partial<Profile>;
-    return { ...DEFAULT_PROFILE(), ...parsed };
+    return { ...freshProfile(), ...parsed };
   } catch {
-    return DEFAULT_PROFILE();
+    return freshProfile();
   }
 }
 
@@ -48,12 +63,12 @@ export function useProfile() {
   }, []);
 
   const selectMode = useCallback((mode: GameModeId) => {
-    setProfile((prev) => ({ ...prev, lastMode: mode }));
+    setProfile((prev) => ({ ...prev, selectedMode: mode }));
   }, []);
 
   const resetProgress = useCallback(() => {
     setProfile((prev) => {
-      const fresh = DEFAULT_PROFILE();
+      const fresh = freshProfile();
       return { ...fresh, settings: prev.settings, playerName: prev.playerName };
     });
   }, []);

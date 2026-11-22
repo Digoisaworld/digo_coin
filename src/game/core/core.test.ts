@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { HitTracker, overlaps } from './collision';
+import { CollisionTracker, overlaps } from './collision';
 import {
   comboDecay,
   comboMultiplier,
@@ -20,12 +20,12 @@ describe('collision', () => {
   });
 
   it('reports a hit for a given object exactly once', () => {
-    const tracker = new HitTracker();
-    expect(tracker.shouldHit('a')).toBe(true);
-    expect(tracker.shouldHit('a')).toBe(false);
-    expect(tracker.shouldHit('b')).toBe(true);
-    tracker.release('a');
-    expect(tracker.shouldHit('a')).toBe(true);
+    const tracker = new CollisionTracker();
+    expect(tracker.isFirstContact(1)).toBe(true);
+    expect(tracker.isFirstContact(1)).toBe(false);
+    expect(tracker.isFirstContact(2)).toBe(true);
+    tracker.release(1);
+    expect(tracker.isFirstContact(1)).toBe(true);
   });
 });
 
@@ -62,8 +62,8 @@ describe('scoring', () => {
     expect(comboMultiplier(0)).toBe(1);
     expect(comboMultiplier(10)).toBeGreaterThan(comboMultiplier(5));
     expect(comboMultiplier(60)).toBeLessThanOrEqual(8);
-    expect(comboDecay(0.5, true)).toBeLessThan(0.5);
-    expect(comboDecay(0.5, false)).toBeGreaterThan(0.5);
+    expect(comboDecay(20, 0)).toBe(20);
+    expect(comboDecay(20, 5)).toBeLessThan(20);
   });
 
   it('pays more for rarer rewards and doubles on power-up', () => {

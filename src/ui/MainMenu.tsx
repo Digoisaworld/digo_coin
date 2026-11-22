@@ -4,6 +4,7 @@ import type { Profile } from '../game/core/profile';
 import { getWorld, WORLDS } from '../game/core/worlds';
 import { worldUnlocked } from '../state/profileOps';
 import { Btn, Progress, Tag } from './components';
+import { worldEmoji } from './screens';
 
 export type ScreenName =
   | 'menu'
@@ -64,7 +65,7 @@ export function MainMenu({
       <section className="hero-card">
         <div className="hero-glow" aria-hidden="true" />
         <div className="hero-body">
-          <Tag tone="purple">{`STAGE ${stage + 1} · ${stageDef.title.toUpperCase()}`}</Tag>
+          <Tag tone="cyan">{`STAGE ${stage + 1} · ${stageDef.title.toUpperCase()}`}</Tag>
           <h1 className="hero-title">Survive the fall.</h1>
           <p className="hero-copy">
             Catch rewards, dodge bombs. Hold anywhere at the bottom and slide DIGO left or right.
@@ -104,7 +105,7 @@ export function MainMenu({
             {mode.icon} {mode.name}
           </span>
           <span>
-            {world.icon} {world.name}
+            {worldEmoji(world.id)} {world.name}
           </span>
         </div>
       </div>

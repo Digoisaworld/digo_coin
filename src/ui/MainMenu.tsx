@@ -99,7 +99,6 @@ export function MainMenu({
               <span>{evo.next ? `${evo.toNext} XP to ${evo.next.title}` : 'MAX EVOLUTION'}</span>
             </div>
             <Progress value={evo.progress * 100} max={100} tone="purple" />
-          </div>
         </div>
       </section>
 

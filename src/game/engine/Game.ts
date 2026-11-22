@@ -593,7 +593,7 @@ export class Game {
       return true;
     }
 
-    if (isPower(object.kind)) {
+    if (isPowerUp(object.kind)) {
       const kind = object.kind;
       this.activatePower(kind);
       this.particles.burst(object.x, object.y, POWERUPS[kind].color, 18, 3.4);

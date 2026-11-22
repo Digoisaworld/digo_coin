@@ -18,7 +18,6 @@ function load(): Profile {
 
 export function useProfile() {
   const [profile, setProfile] = useState<Profile>(() => load());
-
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));

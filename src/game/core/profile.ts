@@ -91,6 +91,7 @@ export interface WalletLink {
 }
 
 export interface Profile {
+  playerName: string;
   version: number;
   coins: number;
   xp: number;
@@ -116,6 +117,7 @@ export interface Profile {
 }
 
 export const DEFAULT_PROFILE: Profile = {
+  playerName: 'DIGO PILOT',
   version: 1,
   coins: 0,
   xp: 0,

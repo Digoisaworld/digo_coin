@@ -31,7 +31,9 @@ export function pick<T>(rng: Rng, items: readonly T[]): T {
 }
 
 export function weightedPick<T extends string>(rng: Rng, weights: Partial<Record<T, number>>): T {
-  const entries = Object.entries(weights).filter(([, w]) => (w ?? 0) > 0) as [T, number][];
+  const entries = Object.entries(weights as Record<string, number | undefined>).filter(
+    ([, w]) => (w ?? 0) > 0,
+  ) as [T, number][];
   const total = entries.reduce((sum, [, w]) => sum + w, 0);
   let roll = rng() * total;
   for (const [key, w] of entries) {

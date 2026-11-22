@@ -4,6 +4,7 @@ import type { Profile } from '../game/core/profile';
 import { getWorld, WORLDS } from '../game/core/worlds';
 import { worldUnlocked } from '../state/profileOps';
 import { Btn, Progress, Tag } from './components';
+import { CharacterPreview } from './CharacterPreview';
 import { worldEmoji } from './screens';
 
 export type ScreenName =
@@ -64,13 +65,19 @@ export function MainMenu({
 
       <section className="hero-card">
         <div className="hero-glow" aria-hidden="true" />
-        <div className="hero-body">
-          <Tag tone="cyan">{`STAGE ${stage + 1} · ${stageDef.title.toUpperCase()}`}</Tag>
-          <h1 className="hero-title">Survive the fall.</h1>
-          <p className="hero-copy">
-            Catch rewards, dodge bombs. Hold anywhere at the bottom and slide DIGO left or right.
-          </p>
-          <div className="hero-stats">
+        <div className="hero-main">
+          <div className="hero-char">
+            <CharacterPreview stageIndex={stage} size={118} />
+          </div>
+          <div className="hero-body">
+            <Tag tone="cyan">{`STAGE ${stage + 1} · ${stageDef.title.toUpperCase()}`}</Tag>
+            <h1 className="hero-title">Survive the fall.</h1>
+            <p className="hero-copy">
+              Catch rewards, dodge bombs. Hold anywhere at the bottom and slide DIGO left or right.
+            </p>
+          </div>
+        </div>
+        <div className="hero-stats">
             <div>
               <span>BEST</span>
               <strong>{profile.bestScore.toLocaleString()}</strong>

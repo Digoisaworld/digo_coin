@@ -1521,3 +1521,10 @@ input[type='range']::-moz-range-thumb {
 .nav-hint{display:block;font-size:10px;opacity:.5;margin-top:1px;}
 .foot-note{text-align:center;font-size:10px;line-height:1.6;opacity:.4;}
 .char-preview{position:relative;}
+
+/* ===== main menu hero: rotating DIGO showcase ===== */
+.hero-main{position:relative;display:flex;align-items:center;gap:12px;}
+.hero-char{flex:0 0 auto;width:118px;height:118px;filter:drop-shadow(0 12px 24px rgba(0,0,0,.5));}
+.hero-main .hero-body{flex:1;min-width:0;}
+.hero-main .hero-title{font-size:16px;}
+.hero-main .hero-copy{font-size:11px;}

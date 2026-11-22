@@ -259,6 +259,11 @@ export class Game {
     return this.phase === 'paused';
   }
 
+  /** Bridge for the on-screen D-pad: -1 left, +1 right, 0 released. */
+  setButtonAxis(axis: number): void {
+    this.input.setButtonAxis(axis);
+  }
+
   dispose(): void {
     this.disposed = true;
     cancelAnimationFrame(this.frameId);

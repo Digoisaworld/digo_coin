@@ -319,7 +319,11 @@ export function coinEmblemTexture(accent: string): THREE.Texture {
 /* labels                                                             */
 /* ------------------------------------------------------------------ */
 
-export function labelTexture(text: string, color: string, background = 'rgba(8,10,24,0.82)')): THREE.Texture {
+export function labelTexture(
+  text: string,
+  color: string,
+  background = 'rgba(8,10,24,0.82)',
+): THREE.Texture {
   const key = `label:${text}:${color}:${background}`;
   const cached = textureCache.get(key);
   if (cached) return cached;

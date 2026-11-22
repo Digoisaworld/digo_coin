@@ -40,9 +40,9 @@ export function MainMenu({
   walletLabel: string;
   walletAction: () => void;
 }) {
-  const stage = stageForXp(profile.xp);
-  const stageDef = EVOLUTION_STAGES[stage];
   const evo = evolutionProgress(profile.xp);
+  const stage = evo.stage.index;
+  const stageDef = evo.stage;
   const world = getWorld(profile.selectedWorld);
   const mode = MODES.find((m) => m.id === profile.selectedMode) ?? MODES[0];
   const unlockedWorlds = WORLDS.filter((w) => worldUnlocked(profile, w.unlockScore)).length;
@@ -88,11 +88,9 @@ export function MainMenu({
           <div className="xp-row">
             <div className="xp-labels">
               <span>Evolution XP</span>
-              <span>
-                {evo.current}/{evo.needed || 'MAX'}
-              </span>
+              <span>{evo.next ? `${evo.toNext} XP to ${evo.next.title}` : 'MAX EVOLUTION'}</span>
             </div>
-            <Progress value={evo.current} max={evo.needed || 1} tone="purple" />
+            <Progress value={evo.progress * 100} max={100} tone="purple" />
           </div>
         </div>
       </section>
